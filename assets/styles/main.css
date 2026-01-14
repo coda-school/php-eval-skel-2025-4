@@ -4,7 +4,7 @@ input {
     border: none;               /* Supprime les bordures par défaut */
     padding: 10px;
     font-size: 18px;
-    outline: none;              /* Supprime le contour bleu au clic */
+    outline: none; /* Supprime le contour bleu au clic */
 }
 
 /* Pour modifier spécifiquement la couleur du placeholder */

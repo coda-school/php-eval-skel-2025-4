@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kwikker{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+    <textarea id="tweetInput" placeholder="What's happening?" maxlength="280"></textarea>
+
+    <div id="charCount">280 caractères restants</div>
+
+    <style>
+        textarea {
+            width: 100%;
+            background-color: black;
+            color: white;
+            border: 1px solid #333;
+            padding: 15px;
+            font-size: 18px;
+            resize: none; /* Empêche le redimensionnement manuel */
+            outline: none;
+        }
+
+        #charCount {
+            color: #65676b;
+            text-align: right;
+            font-family: sans-serif;
+            margin-top: 5px;
+        }
+    </style>
+
+    <script>
+        const textarea = document.getElementById('tweetInput');
+        const countDisplay = document.getElementById('charCount');
+
+        textarea.addEventListener('input', () => {
+            const remaining = 280 - textarea.value.length;
+            countDisplay.innerText = `${remaining} caractères restants`;
+
+            // Optionnel : changer la couleur si on approche de la limite
+            if (remaining <= 20) {
+                countDisplay.style.color = "red";
+            } else {
+                countDisplay.style.color = "#65676b";
+            }
+        });
+    </script>{% endblock %}
