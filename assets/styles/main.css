@@ -1,0 +1,13 @@
+input {
+    background-color: black;    /* Fond noir */
+    color: white;               /* Couleur du texte que l'utilisateur écrit */
+    border: none;               /* Supprime les bordures par défaut */
+    padding: 10px;
+    font-size: 18px;
+    outline: none;              /* Supprime le contour bleu au clic */
+}
+
+/* Pour modifier spécifiquement la couleur du placeholder */
+input::placeholder {
+    color: #65676b;             /* Gris foncé comme sur l'image */
+}
