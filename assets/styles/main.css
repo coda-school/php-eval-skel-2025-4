@@ -5,9 +5,21 @@ input {
     padding: 10px;
     font-size: 18px;
     outline: none; /* Supprime le contour bleu au clic */
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 
 /* Pour modifier spécifiquement la couleur du placeholder */
 input::placeholder {
     color: #65676b;             /* Gris foncé comme sur l'image */
+}
+.button-post-create{
+    border-radius: 20px;
+    background-color: deepskyblue;
+    color: white;
+    padding: 10px;
+    font-family: "Montserrat", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
