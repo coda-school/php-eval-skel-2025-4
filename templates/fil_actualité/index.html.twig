@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Mon Fil d'actualité</h1>
+
+    {% for post in posts %}
+        <div style="border: 1px solid #ccc; margin-bottom: 10px; padding: 10px;">
+            <p>{{ post.message }}</p> {# Remplace 'message' par le nom exact de ta propriété dans l'entité Post #}
+            <small>Likes: {{ post.nbLikes }} | Vues: {{ post.nbVues }}</small>
+        </div>
+    {% else %}
+        <p>Aucun Kweek pour le moment. Soyez le premier à en écrire un !</p>
+    {% endfor %}
+{% endblock %}
