@@ -5,14 +5,48 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class UserController extends AbstractController
 {
     #[Route('/user', name: 'app_user')]
     public function index(): Response
     {
-        return $this->render('user/index.html.twig', [
+        return $this->render('user/profile.html.twig', [
             'controller_name' => 'UserController',
         ]);
+    }
+
+
+    #[Route('/follow/{id}', name: 'user_follow')]
+    public function follow(User $userToFollow, EntityManagerInterface $em): Response
+    {
+        $currentUSer = $this->getUser();
+        if (!$currentUSer) {
+            throw $this->createAccessDeniedException();
+        }
+        if ($currentUser === $userToFollow) {
+            $currentUser->follow($userToFollow);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('user_profile', ['id' => $userToFollow->getId()]);
+    }
+
+    #[IsGranted('ROLE_USER')]
+    #[Route('/unfollow/{id}', name: 'user_unfollow')]
+    public function unfollow(User $userToUnfollow, EntityManagerInterface $em): Response
+    {
+        $currentUser = $this->getUser();
+        if (!$currentUser) {
+            throw $this->createAccessDeniedException();
+        }
+        if ($currentUser === $userToUnfollow) {
+            $currentUser->unfollow($userToUnfollow);
+            $em->flush();
+        }
+        return $this->redirectToRoute('user_profile', ['id' => $userToUnfollow->getId()]);
     }
 }

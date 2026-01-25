@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -150,7 +152,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     public function getRoles(): array
@@ -181,4 +183,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // Nettoyage des données sensibles temporaires si nécessaire
     }
+
+
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'followers')]
+    private Collection $following;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'following')]
+    private Collection $followers;
+
+
+    public function __construct()
+    {
+        $this->following = new ArrayCollection();
+        $this->followers = new ArrayCollection();
+    }
+
+    public function follow(User $user): void
+    {
+        if (!$this->following->contains($user)) {
+            $this->following->add($user);
+        }
+    }
+
+    public function unfollow(User $user): void
+    {
+        if ($this->following->contains($user)) {
+            $this->following->removeElement($user);
+        }
+    }
+
+    public function isFollowing(User $user): bool
+    {
+        return $this->following->contains($user);
+    }
+
 }
