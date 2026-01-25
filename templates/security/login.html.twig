@@ -1,0 +1,154 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in - Kwikker{% endblock %}
+
+{% block body %}
+    <style>
+        /* Reset simple pour être sûr du centrage */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        /* Le conteneur principal qui centre la carte */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffffff; /* Fond blanc comme sur l'image */
+        }
+
+        /* La carte verte */
+        .login-card {
+            background-color: #aebcae; /* Vert sauge (approximatif image) */
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* Le Logo et Titre */
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-logo {
+            width: 50px; /* Taille de ta grenouille */
+            height: 50px;
+            margin-right: 10px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif; /* Police un peu ronde */
+            font-size: 2rem;
+            color: #2f3e2e; /* Vert très foncé */
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Les Labels (Login / Password) */
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-label {
+            display: block;
+            font-family: 'Courier New', Courier, monospace; /* Police style machine à écrire */
+            color: #2f3e2e;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            padding-left: 5px;
+        }
+
+        /* Les Champs de saisie */
+        .form-input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 15px;
+            border: none;
+            background-color: #d9d9d9; /* Gris clair */
+            font-size: 1rem;
+            box-sizing: border-box; /* Important pour ne pas casser la largeur */
+        }
+
+        .form-input:focus {
+            outline: 2px solid #5c6b5c;
+        }
+
+        /* Le Bouton */
+        .btn-submit {
+            background-color: #363636; /* Gris très foncé / Noir */
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #000;
+        }
+
+        /* Gestion des erreurs Symfony */
+        .alert-danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+    </style>
+
+    <div class="login-container">
+        <div class="login-card">
+
+            <div class="brand-header">
+                {# Remplace 'logo_grenouille.png' par le vrai nom de ton image dans public/ #}
+                <img src="{{ asset('bundles/gifexception/images/Logo-Kwikker.png') }}" alt="Logo Kwikker" class="brand-logo">
+                <h1 class="brand-name">Kwikker</h1>
+            </div>
+
+            <form method="post">
+                {# Gestion des erreurs de connexion #}
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        Vous êtes déjà connecté en tant que {{ app.user.userIdentifier }}, <a href="{{ logout_path() }}">Se déconnecter</a>
+                    </div>
+                {% endif %}
+
+                <div class="form-group">
+                    <label for="username" class="form-label">Login</label>
+                    <input type="email" value="{{ last_username }}" name="_username" id="username" class="form-input" autocomplete="email" required autofocus>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" name="_password" id="password" class="form-input" autocomplete="current-password" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+                <button class="btn-submit" type="submit">
+                    Se connecter
+                </button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
