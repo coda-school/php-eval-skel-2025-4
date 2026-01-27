@@ -181,4 +181,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // Nettoyage des données sensibles temporaires si nécessaire
     }
+
+    public function getNomAffichage(): ?string
+    {
+        return $this->nomAffichage;
+    }
+
+    public function setNomAffichage(string $nomAffichage): static
+    {
+        $this->nomAffichage = $nomAffichage;
+
+        return $this;
+    }
 }
