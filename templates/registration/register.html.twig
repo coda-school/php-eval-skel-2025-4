@@ -1,19 +1,187 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}Inscription - Kwikker{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
 
-    {{ form_errors(registrationForm) }}
+    <div class="main-container">
+        <div class="card-custom">
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+            <div class="brand-header">
+                <img src="{{ asset('bundles/gifexception/images/Logo-Kwikker.png') }}" alt="Logo Kwikker" class="brand-logo">
+                <h1 class="brand-name">Kwikker</h1>
+            </div>
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            {{ form_errors(registrationForm) }}
+
+            {{ form_start(registrationForm) }}
+
+            <div class="form-row-custom">
+                {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'form-label-custom'}}) }}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-input-custom'}}) }}
+                <div class="form-error">
+                    {{ form_errors(registrationForm.email) }}
+                </div>
+            </div>
+
+            <div class="form-row-custom">
+                {{ form_label(registrationForm.plainPassword, 'Password', {'label_attr': {'class': 'form-label-custom'}}) }}
+                {{ form_widget(registrationForm.plainPassword, {'attr': {'class': 'form-input-custom'}}) }}
+                <div class="form-error">
+                    {{ form_errors(registrationForm.plainPassword) }}
+                </div>
+            </div>
+
+            <div class="checkbox-row">
+                {{ form_widget(registrationForm.agreeTerms) }}
+                <label for="{{ registrationForm.agreeTerms.vars.id }}">Accepter les conditions</label>
+            </div>
+            <div class="form-error" style="margin-bottom: 10px;">
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+
+            <button type="submit" class="btn-submit">S'inscrire</button>
+
+            {{ form_end(registrationForm) }}
+
+            <p style="margin-top: 15px; font-size: 0.9rem;">
+                Déjà un compte ? <a href="{{ path('app_login') }}" style="color: #2f3e2e; font-weight: bold;">Se connecter</a>
+            </p>
+
+        </div>
+    </div>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: sans-serif;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ffffff;
+            padding: 20px;
+        }
+
+        .card-custom {
+            background-color: #aebcae; /* Vert sauge */
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        /* En-tête (Logo + Titre) */
+        .brand-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        .brand-logo {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            object-fit: contain;
+        }
+
+        .brand-name {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            font-size: 2rem;
+            color: #2f3e2e;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* Style des lignes du formulaire */
+        .form-row-custom {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        /* Les Labels */
+        .form-label-custom {
+            display: block;
+            font-family: 'Courier New', Courier, monospace;
+            color: #2f3e2e;
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            padding-left: 5px;
+        }
+
+        /* Les Champs (Inputs) */
+        .form-input-custom {
+            width: 100%;
+            padding: 12px;
+            border-radius: 15px;
+            border: none;
+            background-color: #d9d9d9;
+            font-size: 1rem;
+            box-sizing: border-box;
+
+            /* --- ICI : COULEUR DU TEXTE NOIRE --- */
+            color: #000000;
+        }
+
+        .form-input-custom:focus {
+            outline: 2px solid #5c6b5c;
+            background-color: #e6e6e6;
+        }
+
+        /* Le Bouton */
+        .btn-submit {
+            background-color: #363636;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn-submit:hover {
+            background-color: #000;
+        }
+
+        /* Spécifique pour la case à cocher (Terms) */
+        .checkbox-row {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            color: #2f3e2e;
+        }
+
+        .checkbox-row input {
+            width: auto;
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        /* Erreurs */
+        .form-error ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            color: #721c24;
+            font-size: 0.9rem;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            padding: 10px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            color: #721c24;
+        }
+    </style>
 {% endblock %}
