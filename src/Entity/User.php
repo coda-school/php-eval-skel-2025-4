@@ -184,6 +184,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // Nettoyage des données sensibles temporaires si nécessaire
     }
 
+<<<<<<< HEAD
 
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'followers')]
     private Collection $following;
@@ -217,4 +218,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->following->contains($user);
     }
 
+=======
+    public function getNomAffichage(): ?string
+    {
+        return $this->nomAffichage;
+    }
+
+    public function setNomAffichage(string $nomAffichage): static
+    {
+        $this->nomAffichage = $nomAffichage;
+
+        return $this;
+    }
+>>>>>>> refs/remotes/origin/main
 }
