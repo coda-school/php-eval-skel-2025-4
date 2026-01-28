@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Tweet;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
@@ -184,9 +185,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // Nettoyage des données sensibles temporaires si nécessaire
     }
 
-<<<<<<< HEAD
 
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'followers')]
+    #[ORM\JoinTable(name: 'user_following')]
     private Collection $following;
 
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'following')]
@@ -218,7 +219,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->following->contains($user);
     }
 
-=======
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function getFollowing(): Collection
+    {
+        return $this->following;
+    }
+
     public function getNomAffichage(): ?string
     {
         return $this->nomAffichage;
@@ -230,5 +240,4 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
->>>>>>> refs/remotes/origin/main
 }

@@ -1,30 +1,37 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
     {% block content %}
-    <h1>Profil de {{ user.username }}</h1>
+
+        <h1>Profil de {{ user.pseudo }}</h1>
 
         {# Bouton follow/unfollow #}
         {% if app.user and app.user != user %}
             {% if app.user.isFollowing(user) %}
-                <a href="{{ path('user_unfollow', [id: user.id]) }}">
+                <a href="{{ path('user_unfollow', { id: user.id }) }}">
                     Se désabonner
                 </a>
             {% else %}
-                <a href="{{ path('user_follow', [id: user.id]) }}">
+                <a href="{{ path('user_follow', { id: user.id }) }}">
                     S'abonner
                 </a>
             {% endif %}
         {% endif %}
 
         {# Compteurs d'abonnés et d'abonnements #}
+        <div style="margin-top: 20px;">
+            <p><strong>{{ user.followers|length }}</strong> abonnés</p>
+            <p><strong>{{ user.following|length }}</strong> abonnements</p>
+        </div>
+
+        {# Zone des tweets (désactivée tant que la relation n'existe pas) #}
+        {#
         {% for tweet in user.tweets %}
-            <div>
-                <p><strong>{{ user.followers|length }}</strong>abonnés</p>
-                <p><strong>{{ user.following|length }}</strong>abonnements</p>
+            <div class="tweet">
+                {{ tweet.content }}
             </div>
         {% endfor %}
-    {% endblock %}
+        #}
 
+    {% endblock %}
 {% endblock %}

@@ -11,23 +11,25 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class UserController extends AbstractController
 {
-    #[Route('/user', name: 'app_user')]
-    public function index(): Response
+    #[Route('/user/{id}', name: 'user_profile')]
+    public function profile(User $user): Response
     {
         return $this->render('user/profile.html.twig', [
-            'controller_name' => 'UserController',
+            'user' => $user,
         ]);
     }
 
-
+    #[IsGranted('ROLE_USER')]
     #[Route('/follow/{id}', name: 'user_follow')]
     public function follow(User $userToFollow, EntityManagerInterface $em): Response
     {
-        $currentUSer = $this->getUser();
-        if (!$currentUSer) {
+        $currentUser = $this->getUser();
+
+        if (!$currentUser) {
             throw $this->createAccessDeniedException();
         }
-        if ($currentUser === $userToFollow) {
+
+        if ($currentUser !== $userToFollow) {
             $currentUser->follow($userToFollow);
             $em->flush();
         }
@@ -40,13 +42,16 @@ final class UserController extends AbstractController
     public function unfollow(User $userToUnfollow, EntityManagerInterface $em): Response
     {
         $currentUser = $this->getUser();
+
         if (!$currentUser) {
             throw $this->createAccessDeniedException();
         }
-        if ($currentUser === $userToUnfollow) {
+
+        if ($currentUser !== $userToUnfollow) {
             $currentUser->unfollow($userToUnfollow);
             $em->flush();
         }
+
         return $this->redirectToRoute('user_profile', ['id' => $userToUnfollow->getId()]);
     }
 }
