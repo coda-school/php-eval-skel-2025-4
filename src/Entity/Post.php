@@ -17,9 +17,6 @@ class Post
     private ?int $NombreDeLikes = null;
 
     #[ORM\Column]
-    private ?int $y = null;
-
-    #[ORM\Column]
     private ?int $NombreDeVues = null;
 
     #[ORM\Column]
@@ -27,6 +24,10 @@ class Post
 
     #[ORM\Column(length: 280)]
     private ?string $ContenuDuKweek = null;
+
+    #[ORM\ManyToOne(inversedBy: 'no')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $author = null;
 
     public function getId(): ?int
     {
@@ -41,18 +42,6 @@ class Post
     public function setNombreDeLikes(int $NombreDeLikes): static
     {
         $this->NombreDeLikes = $NombreDeLikes;
-
-        return $this;
-    }
-
-    public function getY(): ?int
-    {
-        return $this->y;
-    }
-
-    public function setY(int $y): static
-    {
-        $this->y = $y;
 
         return $this;
     }
@@ -89,6 +78,18 @@ class Post
     public function setContenuDuKweek(string $ContenuDuKweek): static
     {
         $this->ContenuDuKweek = $ContenuDuKweek;
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }
