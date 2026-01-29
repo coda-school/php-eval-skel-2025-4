@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Entity\Tweet;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'users')]
@@ -163,7 +164,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     public function getRoles(): array
@@ -193,6 +194,50 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // Nettoyage des données sensibles temporaires si nécessaire
+    }
+
+
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'followers')]
+    #[ORM\JoinTable(name: 'user_following')]
+    private Collection $following;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'following')]
+    private Collection $followers;
+
+
+    public function __construct()
+    {
+        $this->following = new ArrayCollection();
+        $this->followers = new ArrayCollection();
+    }
+
+    public function follow(User $user): void
+    {
+        if (!$this->following->contains($user)) {
+            $this->following->add($user);
+        }
+    }
+
+    public function unfollow(User $user): void
+    {
+        if ($this->following->contains($user)) {
+            $this->following->removeElement($user);
+        }
+    }
+
+    public function isFollowing(User $user): bool
+    {
+        return $this->following->contains($user);
+    }
+
+    public function getFollowers(): Collection
+    {
+        return $this->followers;
+    }
+
+    public function getFollowing(): Collection
+    {
+        return $this->following;
     }
 
     public function getNomAffichage(): ?string
