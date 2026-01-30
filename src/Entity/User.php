@@ -62,6 +62,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, Post>
      */
 
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'followers')]
+    #[ORM\JoinTable(name: 'user_following')]
+    private Collection $following;
+
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'following')]
+    private Collection $followers;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -188,15 +195,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // Nettoyage des données sensibles temporaires si nécessaire
     }
-
-
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'followers')]
-    #[ORM\JoinTable(name: 'user_following')]
-    private Collection $following;
-
-    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'following')]
-    private Collection $followers;
-
 
     public function __construct()
     {

@@ -3,35 +3,114 @@
 {% block body %}
     {% block content %}
 
-        <h1>Profil de {{ user.pseudo }}</h1>
+        <div class="profile-container">
 
-        {# Bouton follow/unfollow #}
-        {% if app.user and app.user != user %}
-            {% if app.user.isFollowing(user) %}
-                <a href="{{ path('user_unfollow', { id: user.id }) }}">
-                    Se désabonner
-                </a>
-            {% else %}
-                <a href="{{ path('user_follow', { id: user.id }) }}">
-                    S'abonner
-                </a>
+            <h1>Profil de {{ user.pseudo }}</h1>
+
+            {% if app.user and app.user != user %}
+                {% if app.user.isFollowing(user) %}
+                    <a href="{{ path('user_unfollow', { id: user.id }) }}" class="unfollow-btn">
+                        Se désabonner
+                    </a>
+                {% else %}
+                    <a href="{{ path('user_follow', { id: user.id }) }}" class="follow-btn">
+                        S'abonner
+                    </a>
+                {% endif %}
             {% endif %}
-        {% endif %}
 
-        {# Compteurs d'abonnés et d'abonnements #}
-        <div style="margin-top: 20px;">
-            <p><strong>{{ user.followers|length }}</strong> abonnés</p>
-            <p><strong>{{ user.following|length }}</strong> abonnements</p>
-        </div>
-
-        {# Zone des tweets (désactivée tant que la relation n'existe pas) #}
-        {#
-        {% for tweet in user.tweets %}
-            <div class="tweet">
-                {{ tweet.content }}
+            <div class="follow-stats">
+                <p><strong>{{ user.followers|length }}</strong> abonnés</p>
+                <p><strong>{{ user.following|length }}</strong> abonnements</p>
             </div>
-        {% endfor %}
-        #}
+
+        </div>
+        <style>
+            /* Conteneur général */
+            .profile-container {
+                max-width: 650px;
+                margin: 40px auto;
+                padding: 28px;
+                background: linear-gradient(135deg, #faf7ff, #fefcff);
+                border-radius: 20px;
+                box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+                font-family: "Inter", sans-serif;
+                border: 1px solid rgba(180, 160, 255, 0.12);
+            }
+
+            /* Titre */
+            .profile-container h1 {
+                font-size: 30px;
+                margin-bottom: 25px;
+                color: #7c6ae0; /* Lavande pastel */
+                font-weight: 700;
+            }
+
+            /* Boutons follow / unfollow */
+            .profile-container a.follow-btn,
+            .profile-container a.unfollow-btn {
+                display: inline-block;
+                padding: 12px 22px;
+                border-radius: 12px;
+                text-decoration: none;
+                font-weight: 600;
+                transition: 0.25s ease;
+                font-size: 15px;
+            }
+
+            /* Follow : bleu ciel très doux */
+            .profile-container a.follow-btn {
+                background: #cfe7ff;
+                color: #2d3a4a;
+                box-shadow: 0 3px 8px rgba(150, 200, 255, 0.35);
+            }
+
+            .profile-container a.follow-btn:hover {
+                background: #bddcff;
+            }
+
+            /* Unfollow : pêche pastel */
+            .profile-container a.unfollow-btn {
+                background: #ffd9e2;
+                color: #4a2a2a;
+                box-shadow: 0 3px 8px rgba(255, 200, 210, 0.35);
+            }
+
+            .profile-container a.unfollow-btn:hover {
+                background: #ffc7d4;
+            }
+
+            /* Compteurs */
+            .follow-stats {
+                margin-top: 30px;
+                display: flex;
+                gap: 25px;
+                font-size: 17px;
+            }
+
+            .follow-stats p {
+                background: #ffffff;
+                padding: 12px 18px;
+                border-radius: 14px;
+                box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+                border: 1px solid rgba(0,0,0,0.04);
+            }
+
+            .follow-stats p strong {
+                font-size: 20px;
+                color: #7c6ae0; /* Lavande pastel */
+            }
+
+            /* Zone tweet (future) */
+            .tweet {
+                margin-top: 20px;
+                padding: 15px;
+                background: #ffffff;
+                border-radius: 14px;
+                border: 1px solid rgba(180, 160, 255, 0.12);
+                box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+            }
+        </style>
 
     {% endblock %}
 {% endblock %}

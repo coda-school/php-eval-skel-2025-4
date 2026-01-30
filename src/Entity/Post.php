@@ -25,7 +25,7 @@ class Post
     #[ORM\Column(length: 280)]
     private ?string $ContenuDuKweek = null;
 
-    #[ORM\ManyToOne(inversedBy: 'no')]
+    #[ORM\ManyToOne(inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
