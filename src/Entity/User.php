@@ -61,13 +61,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var Collection<int, Post>
      */
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'author')]
-    private Collection $no;
-
-    public function __construct()
-    {
-        $this->no = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
