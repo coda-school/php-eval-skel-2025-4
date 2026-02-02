@@ -14,9 +14,12 @@ final class UserController extends AbstractController
     #[Route('/user/{id}', name: 'user_profile')]
     public function profile(User $user): Response
     {
+        $posts = $user->getPosts();
         return $this->render('user/profile.html.twig', [
             'user' => $user,
+            'posts' => $posts,
         ]);
+
     }
 
     #[IsGranted('ROLE_USER')]

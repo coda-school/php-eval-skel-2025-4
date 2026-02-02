@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use App\Entity\Tweet;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: 'users')]
+#[ORM\Table(name: '`users`')]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -58,9 +58,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
-    /**
-     * @var Collection<int, Post>
-     */
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Post::class, orphanRemoval: true)]
+    private Collection $posts;
 
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'followers')]
     #[ORM\JoinTable(name: 'user_following')]
@@ -68,6 +67,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'following')]
     private Collection $followers;
+
+
+    public function getPosts(): Collection{
+        return $this->posts;
+    }
 
     public function getId(): ?int
     {
@@ -200,6 +204,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->following = new ArrayCollection();
         $this->followers = new ArrayCollection();
+        $this->posts = new ArrayCollection();
     }
 
     public function follow(User $user): void
