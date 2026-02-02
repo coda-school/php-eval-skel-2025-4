@@ -37,7 +37,7 @@ final class CreateController extends AbstractController
             $em->persist($post);
             $em->flush();
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('user_profile', ['id' => $user->getId()]);
         }
 
         return $this->render('create/index.html.twig', [
