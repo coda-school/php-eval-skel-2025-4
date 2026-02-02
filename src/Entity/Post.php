@@ -3,7 +3,9 @@
 namespace App\Entity;
 
 use App\Repository\PostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Collection;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -29,6 +31,15 @@ class Post
     #[ORM\JoinColumn(nullable: false)]
     private ?User $author = null;
 
+    #[ORM\ManyToMany(targetEntity: User::class)]
+    #[ORM\JoinTable(name: "post_likes")]
+    private $likes;
+
+    public function __construct()
+    {
+        $this->likes = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -42,7 +53,6 @@ class Post
     public function setNombreDeLikes(int $NombreDeLikes): static
     {
         $this->NombreDeLikes = $NombreDeLikes;
-
         return $this;
     }
 
@@ -54,7 +64,6 @@ class Post
     public function setNombreDeVues(int $NombreDeVues): static
     {
         $this->NombreDeVues = $NombreDeVues;
-
         return $this;
     }
 
@@ -66,7 +75,6 @@ class Post
     public function setNombreDeCommentaires(int $NombreDeCommentaires): static
     {
         $this->NombreDeCommentaires = $NombreDeCommentaires;
-
         return $this;
     }
 
@@ -78,7 +86,6 @@ class Post
     public function setContenuDuKweek(string $ContenuDuKweek): static
     {
         $this->ContenuDuKweek = $ContenuDuKweek;
-
         return $this;
     }
 
@@ -90,7 +97,28 @@ class Post
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
-
         return $this;
     }
+
+//    public function addLike(User $user): void
+//    {
+//        if (!$this->likes->contains($user)) {
+//            $this->likes->add($user);
+//        }
+//    }
+//
+//    public function removeLike(User $user): void
+//    {
+//        $this->likes->removeElement($user);
+//    }
+//
+//    public function isLikedBy(User $user): bool
+//    {
+//        return $this->likes->contains($user);
+//    }
+//
+//    public function getLikes()
+//    {
+//        return $this->likes;
+//    }
 }
