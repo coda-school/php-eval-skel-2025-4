@@ -5,18 +5,18 @@
 
 <div class="profile-container">
 
-    <h1>Profil de {{ user.pseudo }}</h1>
+    <div class="profile-header">
 
-    {% if app.user and app.user != user %}
-        {% if app.user.isFollowing(user) %}
-            <a href="{{ path('user_unfollow', { id: user.id }) }}" class="unfollow-btn">
-                Se désabonner
-            </a>
-        {% else %}
-            <a href="{{ path('user_follow', { id: user.id }) }}" class="follow-btn">
-                S'abonner
+        <h1>Profil de {{ user.pseudo }}</h1>
+
+        {% if app.user and app.user == user %}
+            <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="edit-btn">
+                Modifier
             </a>
         {% endif %}
+    </div>
+    {% if user.bio %}
+        <p class="user-bio">{{ user.bio }}</p>
     {% endif %}
 
     <div class="follow-stats">
@@ -218,6 +218,43 @@
                 color: #6b8e23; /* kaki */
                 font-weight: 600;
             }
+
+            .profile-header {
+                display: flex;
+                justify-content: space-between; /* Ecarte le titre et le bouton */
+                align-items: center;
+                margin-bottom: 15px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 10px;
+            }
+
+            .profile-header h1 {
+                margin: 0; /* On enlève la marge du titre pour l'alignement */
+            }
+
+            .edit-btn {
+                text-decoration: none;
+                background-color: #f0f0f0;
+                color: #333;
+                padding: 8px 15px;
+                border-radius: 8px;
+                font-weight: 600;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                transition: 0.2s;
+            }
+
+            .edit-btn:hover {
+                background-color: #e0e0e0;
+                color: black;
+            }
+
+            .user-bio {
+                font-style: italic;
+                color: #555;
+                margin-bottom: 25px; /* Espace avant les boutons suivre/créer */
+            }
+
         </style>
 
     {% endblock %}
