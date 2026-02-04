@@ -1,0 +1,138 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Fil d'actualité - Kwikker{% endblock %}
+
+{% block body %}
+    <style>
+        body {
+            background-color: #aebcae;
+            color: #2f3e2e;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .feed-container {
+            background-color: #f0f4f0;
+            width: 100%;
+            max-width: 600px;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .feed-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #aebcae;
+            padding-bottom: 15px;
+        }
+
+        .feed-header h1 {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            color: #2f3e2e;
+            font-size: 2rem;
+            margin: 0;
+        }
+
+        .kweek-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #d1d9d1;
+            transition: transform 0.2s ease;
+        }
+
+        .kweek-card:hover {
+            transform: scale(1.01);
+            border-color: #aebcae;
+        }
+
+        .kweek-author {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            text-decoration: none;
+            color: #5c6b5c;
+            background-color: #e8eee8;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .kweek-author:hover {
+            background-color: #2f3e2e;
+            color: #ffffff;
+        }
+
+        .kweek-content {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .kweek-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #aebcae;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.85rem;
+            color: #5c6b5c;
+            background-color: #f9fbf9;
+            padding: 4px 10px;
+            border-radius: 8px;
+        }
+
+        .no-posts {
+            text-align: center;
+            padding: 50px;
+            color: #5c6b5c;
+            font-style: italic;
+        }
+    </style>
+
+    <div class="feed-container">
+        <div class="feed-header">
+            <h1>Fil d'actualité</h1>
+        </div>
+
+        {% for post in posts %}
+            <div class="kweek-card">
+                <a href="{{ path('user_profile', {id: post.author.id}) }}" class="kweek-author">
+                    @{{ post.author.pseudo }}
+                </a>
+
+                <p class="kweek-content">{{ post.ContenuDuKweek }}</p>
+
+                <div class="kweek-stats">
+                    <div class="stat-item" title="Commentaires">
+                        <span>💬</span> {{ post.NombreDeCommentaires }}
+                    </div>
+                    <div class="stat-item" title="Likes">
+                        <span>❤️</span> {{ post.NombreDeLikes }}
+                    </div>
+                    <div class="stat-item" title="Vues">
+                        <span>👁️</span> {{ post.NombreDeVues }}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="no-posts">
+                <p>Aucun kweek pour le moment.</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

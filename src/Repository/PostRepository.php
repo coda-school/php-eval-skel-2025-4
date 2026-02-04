@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Post;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -15,6 +16,30 @@ class PostRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Post::class);
     }
+
+    public function findLatest(): array
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults(50)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findFeedForUser(User $user): array
+    {
+        return $this->createQueryBuilder('p')
+            ->innerJoin('p.author', 'u')
+            ->innerJoin('u.followers', 'f')
+            ->where('f.id = :userId')
+            ->setParameter('userId', $user->getId())
+            ->orderBy('p.id', 'DESC')
+            ->setMaxResults(50)
+            ->getQuery()
+            ->getResult();
+    }
+
+
 
 //    /**
 //     * @return Post[] Returns an array of Post objects
