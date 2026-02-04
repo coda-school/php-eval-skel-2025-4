@@ -100,25 +100,25 @@ class Post
         return $this;
     }
 
-//    public function addLike(User $user): void
-//    {
-//        if (!$this->likes->contains($user)) {
-//            $this->likes->add($user);
-//        }
-//    }
-//
-//    public function removeLike(User $user): void
-//    {
-//        $this->likes->removeElement($user);
-//    }
-//
-//    public function isLikedBy(User $user): bool
-//    {
-//        return $this->likes->contains($user);
-//    }
-//
-//    public function getLikes()
-//    {
-//        return $this->likes;
-//    }
+    public function addLike(User $user): void
+    {
+        if (!$this->likes->contains($user)) {
+            $this->likes->add($user);
+        }
+    }
+
+    public function removeLike(User $user): void
+    {
+        $this->likes->removeElement($user);
+    }
+
+    public function isLikedBy(User $user): bool
+    {
+        return $this->likes->contains($user);
+    }
+
+    public function getLikes()
+    {
+        return $this->likes;
+    }
 }

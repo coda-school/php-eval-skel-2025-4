@@ -37,17 +37,17 @@
         <div class="tweet">
             {{ post.ContenuDuKweek }}
 
-{#            <div class="like-zone">#}
-{#                {% if app.user %}#}
-{#                    {% if post.isLikedBy(app.user) %}#}
-{#                        <a href="{{ path('post_like', { id: post.id, from: 'profile', userId: user.id }) }}" class="unlike-btn">❤️</a>#}
-{#                    {% else %}#}
-{#                        <a href="{{ path('post_like', { id: post.id, from: 'profile', userId: user.id }) }}" class="like-btn">🤍</a>#}
-{#                    {% endif %}#}
-{#                {% endif %}#}
+            <div class="like-zone">
+                {% if app.user %}
+                    {% if post.isLikedBy(app.user) %}
+                        <a href="{{ path('post_like', { id: post.id, from: 'profile', userId: user.id }) }}" class="unlike-btn">❤️</a>
+                    {% else %}
+                        <a href="{{ path('post_like', { id: post.id, from: 'profile', userId: user.id }) }}" class="like-btn">🤍</a>
+                    {% endif %}
+                {% endif %}
 
-{#                <span class="like-count">{{ post.likes|length }}</span>#}
-{#            </div>#}
+                <span class="like-count">{{ post.likes|length }}</span>
+            </div>
         </div>
     {% else %}
         <p>Aucun kweek pour le moment.</p>
