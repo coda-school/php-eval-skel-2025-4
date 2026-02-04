@@ -102,7 +102,50 @@
             color: #5c6b5c;
             font-style: italic;
         }
+
+        /* ⭐ Bouton profil flottant */
+        .profile-floating {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            text-align: center;
+            z-index: 999;
+        }
+
+        .profile-btn {
+            background-color: #2f3e2e;
+            color: #ffffff;
+            font-size: 1.6rem;
+            text-decoration: none;
+            padding: 12px 16px;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+
+        .profile-btn:hover {
+            background-color: #5c6b5c;
+            transform: scale(1.1);
+        }
+
+        .profile-username {
+            margin-top: 6px;
+            font-size: 0.85rem;
+            color: #2f3e2e;
+            font-family: 'Courier New', monospace;
+            background-color: #e8eee8;
+            padding: 3px 8px;
+            border-radius: 10px;
+        }
     </style>
+
+    {% if app.user %}
+        <div class="profile-floating">
+            <a href="{{ path('user_profile', { id: app.user.id }) }}" class="profile-btn">👤</a>
+            <div class="profile-username">@{{ app.user.pseudo }}</div>
+        </div>
+    {% endif %}
 
     <div class="feed-container">
         <div class="feed-header">
@@ -122,7 +165,6 @@
                         <span>💬</span> {{ post.NombreDeCommentaires }}
                     </div>
 
-                    {# ⭐ SYSTÈME DE LIKE — modification minimale ⭐ #}
                     <div class="stat-item" title="Likes">
                         {% if app.user %}
                             {% if post.isLikedBy(app.user) %}
@@ -133,10 +175,8 @@
                         {% else %}
                             <span>🤍</span>
                         {% endif %}
-
                         <span>{{ post.likes|length }}</span>
                     </div>
-                    {# ⭐ FIN DU LIKE ⭐ #}
 
                     <div class="stat-item" title="Vues">
                         <span>👁️</span> {{ post.NombreDeVues }}
