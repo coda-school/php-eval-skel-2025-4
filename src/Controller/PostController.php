@@ -44,7 +44,7 @@ final class PostController extends AbstractController
 
         // Si ça vient du fil d'actualité → je renvoie au fil
         if ($from === 'feed') {
-            return $this->redirectToRoute('app_feed');
+            return $this->redirectToRoute('app_fil_actu');
         }
 
         // Si ça vient d'un profil → je renvoie au profil

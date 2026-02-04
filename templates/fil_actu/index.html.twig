@@ -121,9 +121,23 @@
                     <div class="stat-item" title="Commentaires">
                         <span>💬</span> {{ post.NombreDeCommentaires }}
                     </div>
+
+                    {# ⭐ SYSTÈME DE LIKE — modification minimale ⭐ #}
                     <div class="stat-item" title="Likes">
-                        <span>❤️</span> {{ post.NombreDeLikes }}
+                        {% if app.user %}
+                            {% if post.isLikedBy(app.user) %}
+                                <a href="{{ path('post_like', { id: post.id, from: 'feed' }) }}">❤️</a>
+                            {% else %}
+                                <a href="{{ path('post_like', { id: post.id, from: 'feed' }) }}">🤍</a>
+                            {% endif %}
+                        {% else %}
+                            <span>🤍</span>
+                        {% endif %}
+
+                        <span>{{ post.likes|length }}</span>
                     </div>
+                    {# ⭐ FIN DU LIKE ⭐ #}
+
                     <div class="stat-item" title="Vues">
                         <span>👁️</span> {{ post.NombreDeVues }}
                     </div>
