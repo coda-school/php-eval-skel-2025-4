@@ -1,0 +1,137 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier mon profil{% endblock %}
+
+{% block body %}
+
+    <div class="edit-container">
+
+        <h1>Modifier mon profil</h1>
+
+        {{ form_start(form) }}
+
+        <div class="form-group">
+            {{ form_row(form.pseudo) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.nom) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.bio) }}
+        </div>
+
+        <div class="buttons-row">
+            <a href="{{ path('user_profile', {'id': user.id}) }}" class="cancel-btn">
+                Annuler
+            </a>
+            <button type="submit" class="save-btn">
+                Enregistrer
+            </button>
+        </div>
+
+        {{ form_end(form) }}
+
+    </div>
+
+    <style>
+
+        .edit-container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 18px;
+            border: 2px solid #dcdcdc;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            font-family: "Inter", sans-serif;
+        }
+
+
+        .edit-container h1 {
+            font-size: 28px;
+            font-weight: 800;
+            margin-bottom: 25px;
+            color: #3a3a3a;
+            letter-spacing: -0.5px;
+            text-align: center;
+        }
+
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #444;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e5e5;
+            border-radius: 12px;
+            font-size: 15px;
+            background-color: #f9f9f9;
+            color: #000000 !important;
+            box-sizing: border-box;
+            transition: 0.2s;
+            font-family: "Inter", sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: #6b8e23;
+            outline: none;
+            background-color: #fff;
+        }
+
+
+        .buttons-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+
+        .cancel-btn {
+            text-decoration: none;
+            color: #777;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 12px;
+            transition: 0.2s;
+        }
+        .cancel-btn:hover {
+            background-color: #f0f0f0;
+            color: #333;
+        }
+
+
+        .save-btn {
+            background: #6b8e23;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);
+            transition: 0.25s ease;
+        }
+
+        .save-btn:hover {
+            background: #5c7c1f;
+            transform: translateY(-2px);
+        }
+    </style>
+
+{% endblock %}

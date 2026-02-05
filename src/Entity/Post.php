@@ -35,9 +35,13 @@ class Post
     #[ORM\JoinTable(name: "post_likes")]
     private $likes;
 
+//    #[ORM\Column(type: 'datetime')]
+//    private ?\DateTimeInterface $createdAt = null;
+
     public function __construct()
     {
         $this->likes = new ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     public function getId(): ?int
@@ -121,4 +125,15 @@ class Post
     {
         return $this->likes;
     }
+
+//    public function getCreatedAt(): ?\DateTimeInterface
+//    {
+//        return $this->createdAt;
+//    }
+//
+//    public function setCreatedAt(\DateTimeInterface $createdAt): static
+//    {
+//        $this->createdAt = $createdAt;
+//        return $this;
+//    }
 }

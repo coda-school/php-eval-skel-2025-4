@@ -3,220 +3,288 @@
 {% block body %}
     {% block content %}
 
-<div class="profile-container">
+        <div class="main-container">
+            <div class="card-custom">
 
-    <h1>Profil de {{ user.pseudo }}</h1>
+                <div class="back-container">
+                    <a href="{{ path('app_fil_actu') }}" class="back-btn">⬅ Retour</a>
+                </div>
 
-    {% if app.user and app.user != user %}
-        {% if app.user.isFollowing(user) %}
-            <a href="{{ path('user_unfollow', { id: user.id }) }}" class="unfollow-btn">
-                Se désabonner
-            </a>
-        {% else %}
-            <a href="{{ path('user_follow', { id: user.id }) }}" class="follow-btn">
-                S'abonner
-            </a>
-        {% endif %}
-    {% endif %}
+                <div class="profile-header">
+                    <h1 class="brand-name">Profil de {{ user.pseudo }}</h1>
 
-    <div class="follow-stats">
-        <p><strong>{{ user.followers|length }}</strong> abonnés</p>
-        <p><strong>{{ user.following|length }}</strong> abonnements</p>
-    </div>
-
-    {% if app.user and app.user == user %}
-        <div>
-            <a href="{{ path('app_create') }}" class="create-btn">Créer un kweek</a>
-        </div>
-    {% endif %}
-
-
-    <h2>Kweeks</h2>
-
-    {% for post in posts %}
-        <div class="tweet">
-            {{ post.ContenuDuKweek }}
-
-            <div class="like-zone">
-                {% if app.user %}
-                    {% if post.isLikedBy(app.user) %}
-                        <a href="{{ path('post_like', { id: post.id, from: 'profile', userId: user.id }) }}" class="unlike-btn">❤️</a>
-                    {% else %}
-                        <a href="{{ path('post_like', { id: post.id, from: 'profile', userId: user.id }) }}" class="like-btn">🤍</a>
+                    {% if app.user and app.user == user %}
+                        <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="edit-btn">
+                            Modifier
+                        </a>
                     {% endif %}
+                </div>
+
+                {% if user.bio %}
+                    <p class="user-bio">{{ user.bio }}</p>
                 {% endif %}
 
-                <span class="like-count">{{ post.likes|length }}</span>
+                {% if app.user and app.user != user %}
+                    <div class="action-center">
+                        {% if app.user.isFollowing(user) %}
+                            <a href="{{ path('user_unfollow', { id: user.id }) }}" class="action-btn unfollow">Se désabonner</a>
+                        {% else %}
+                            <a href="{{ path('user_follow', { id: user.id }) }}" class="action-btn follow">S'abonner</a>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+                <div class="follow-stats-box">
+                    <p><strong>{{ user.followers|length }}</strong> abonnés</p>
+                    <p><strong>{{ user.following|length }}</strong> abonnements</p>
+                </div>
+
+                {% if app.user and app.user == user %}
+                    <div class="action-center">
+                        <a href="{{ path('app_create') }}" class="action-btn create">Créer un kweek</a>
+                    </div>
+                {% endif %}
+
+                <h2 class="section-title">Kweeks</h2>
+
+                {% for post in posts %}
+                    <div class="tweet-box">
+                        {{ post.ContenuDuKweek }}
+
+                        <div class="like-zone">
+                            {% if app.user %}
+                                {% if post.isLikedBy(app.user) %}
+                                    <a href="{{ path('post_like', { id: post.id, from: 'profile', userId: user.id }) }}" class="like-icon">❤️</a>
+                                {% else %}
+                                    <a href="{{ path('post_like', { id: post.id, from: 'profile', userId: user.id }) }}" class="like-icon">🤍</a>
+                                {% endif %}
+                            {% endif %}
+                            <span class="like-count">{{ post.likes|length }}</span>
+                        </div>
+                    </div>
+                {% else %}
+                    <p class="empty-state">Aucun kweek pour le moment.</p>
+                {% endfor %}
+
             </div>
         </div>
-    {% else %}
-        <p>Aucun kweek pour le moment.</p>
-    {% endfor %}
-
-
-</div>
-
 
         <style>
-            /* --- CONTAINER --- */
-            .profile-container {
-                max-width: 650px;
-                margin: 40px auto;
-                padding: 30px;
-                background: #ffffff;
-                border-radius: 18px;
-                border: 2px solid #dcdcdc;
-                box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-                font-family: "Inter", sans-serif;
+            body, html {
+                height: 100%;
+                margin: 0;
+                font-family: sans-serif;
             }
 
-            /* --- TITLE --- */
-            .profile-container h1 {
-                font-size: 30px;
-                font-weight: 800;
+            .main-container {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                min-height: 100vh;
+                background-color: #ffffff;
+                padding: 20px;
+            }
+
+            .card-custom {
+                background-color: #aebcae;
+                padding: 35px;
+                border-radius: 20px;
+                width: 100%;
+                max-width: 450px;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                box-sizing: border-box;
+                position: relative;
+            }
+
+            .back-container {
+                position: absolute;
+                top: 15px;
+                left: 15px;
+            }
+
+            .back-btn {
+                background: #2f3e2e;
+                color: white;
+                padding: 5px 10px;
+                border-radius: 8px;
+                text-decoration: none;
+                font-size: 0.75rem;
+                opacity: 0.8;
+                transition: 0.2s ease;
+            }
+
+            .back-btn:hover {
+                opacity: 1;
+                background: #1f2a1f;
+            }
+
+            .profile-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
                 margin-bottom: 15px;
-                color: #3a3a3a;
-                letter-spacing: -0.5px;
+                border-bottom: 1px solid #eee;
+                padding-bottom: 10px;
             }
 
-            /* --- BUTTONS --- */
-            .follow-btn,
-            .unfollow-btn {
-                display: inline-block;
-                padding: 10px 20px;
-                border-radius: 12px;
-                font-weight: 600;
+            .brand-name {
+                font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+                font-size: 2rem;
+                color: #2f3e2e;
+                font-weight: bold;
+                margin: 0;
+            }
+
+            .edit-btn {
                 text-decoration: none;
-                font-size: 15px;
-                transition: 0.25s ease;
+                background-color: #f0f0f0;
+                color: #333;
+                padding: 8px 15px;
+                border-radius: 8px;
+                font-weight: 600;
+                font-size: 14px;
+                border: 1px solid #ccc;
+                transition: 0.2s;
             }
 
-            .create-btn {
-                display: inline-block;
+            .edit-btn:hover {
+                background-color: #e0e0e0;
+                color: black;
+            }
+
+            .user-bio {
+                font-style: italic;
+                color: #555;
+                margin-bottom: 25px;
+            }
+
+            .action-center {
+                display: flex;
+                justify-content: center;
                 margin-bottom: 20px;
-                padding: 10px 20px;
-                background: #6b8e23; /* kaki */
-                color: white;
+            }
+
+            .action-btn {
+                padding: 10px 22px;
                 border-radius: 12px;
                 font-weight: 600;
                 text-decoration: none;
                 font-size: 15px;
                 transition: 0.25s ease;
-                box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);
+                text-align: center;
+                display: inline-block;
             }
 
-            .create-btn:hover {
-                background: #5c7c1f;
-                transform: translateY(-2px);
-            }
-
-            /* Follow = KAKI VIF */
-            .follow-btn {
-                background: #6b8e23; /* kaki */
+            .action-btn.follow {
+                background: #6b8e23;
                 color: white;
                 box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);
             }
 
-            .follow-btn:hover {
+            .action-btn.follow:hover {
                 background: #5c7c1f;
                 transform: translateY(-2px);
             }
 
-            /* Unfollow = ORANGE VIF */
-            .unfollow-btn {
+            .action-btn.unfollow {
                 background: #ff7b00;
                 color: white;
                 box-shadow: 0 4px 10px rgba(255, 123, 0, 0.3);
             }
 
-            .unfollow-btn:hover {
+            .action-btn.unfollow:hover {
                 background: #e86e00;
                 transform: translateY(-2px);
             }
 
-            /* --- FOLLOW STATS --- */
-            .follow-stats {
+            .action-btn.create {
+                background: #6b8e23;
+                color: white;
+                box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);
+            }
+
+            .action-btn.create:hover {
+                background: #5c7c1f;
+                transform: translateY(-2px);
+            }
+
+            .follow-stats-box {
                 display: flex;
-                gap: 25px;
-                margin: 25px 0;
-            }
-
-            .follow-stats p {
-                margin: 0;
-                padding: 12px 18px;
-                background: #f4f4f4;
+                justify-content: center;
+                gap: 40px;
+                background: #d9d9d9;
+                padding: 12px;
                 border-radius: 12px;
-                font-size: 15px;
-                color: #444;
-                border: 1px solid #e0e0e0;
-            }
-
-            .follow-stats strong {
-                display: block;
-                font-size: 22px;
-                font-weight: 800;
-                color: #6b8e23; /* kaki */
-            }
-
-            /* --- SECTION TITLE --- */
-            h2 {
-                font-size: 22px;
-                margin: 25px 0 15px;
-                font-weight: 700;
-                color: #3a3a3a;
-            }
-
-            /* --- POST CARD --- */
-            .tweet {
-                background: #f9f9f9;
-                padding: 18px;
-                border-radius: 16px;
-                border: 2px solid #e5e5e5;
-                margin-bottom: 15px;
-                font-size: 16px;
-                color: #2b2b2b;
-                line-height: 1.6;
-                box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-                transition: 0.25s ease;
-            }
-
-            /* Hover dynamique */
-            .tweet:hover {
-                transform: translateY(-3px);
-                box-shadow: 0 10px 24px rgba(0,0,0,0.10);
-                background: #f0f0f0;
-            }
-
-            /* --- EMPTY STATE --- */
-            .profile-container .empty {
+                margin-bottom: 20px;
                 text-align: center;
-                color: #777;
-                font-style: italic;
-                margin-top: 20px;
+            }
+
+            .follow-stats-box p {
+                margin: 0;
+                font-size: 0.95rem;
+                color: #2f3e2e;
+                min-width: 110px;
+            }
+
+            .follow-stats-box strong {
+                font-size: 1.2rem;
+                color: #6b8e23;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+                margin: 20px 0 10px;
+                font-weight: bold;
+                color: #2f3e2e;
+            }
+
+            .tweet-box {
+                background: #f9f9f9;
+                padding: 15px;
+                border-radius: 15px;
+                border: 1px solid #e0e0e0;
+                margin-bottom: 12px;
+                font-size: 0.95rem;
+                color: #2b2b2b;
+                line-height: 1.5;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+                transition: 0.2s ease;
+            }
+
+            .tweet-box:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 18px rgba(0,0,0,0.10);
+                background: #f0f0f0;
             }
 
             .like-zone {
                 display: flex;
                 align-items: center;
                 gap: 8px;
-                margin-top: 10px;
+                margin-top: 8px;
             }
 
-            .like-btn, .unlike-btn {
+            .like-icon {
                 font-size: 20px;
                 text-decoration: none;
                 transition: 0.2s ease;
             }
 
-            .like-btn:hover,
-            .unlike-btn:hover {
+            .like-icon:hover {
                 transform: scale(1.1);
             }
 
             .like-count {
-                font-size: 16px;
-                color: #6b8e23; /* kaki */
+                font-size: 0.95rem;
+                color: #6b8e23;
                 font-weight: 600;
+            }
+
+            .empty-state {
+                margin-top: 15px;
+                font-style: italic;
+                color: #2f3e2e;
+                text-align: center;
             }
         </style>
 
