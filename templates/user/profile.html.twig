@@ -50,7 +50,18 @@
                 {% for post in posts %}
                     <div class="tweet-box">
                         {{ post.ContenuDuKweek }}
+                        <div class="action-buttons">
+                            {# Bouton Modifier #}
+                            <a href="{{ path('app_tweet_edit', { id: post.id }) }}" class="edit-btn">
+                                Modifier
+                            </a>
 
+                            {# Bouton Supprimer #}
+                            <form method="post" action="{{ path('app_tweet_delete', { id: post.id }) }}" onsubmit="return confirm('Êtes-vous sûr ?');" style="margin:0; width: 100%;">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ post.id) }}">
+                                <button class="delete-btn">Supprimer</button>
+                            </form>
+                        </div>
                         <div class="like-zone">
                             {% if app.user %}
                                 {% if post.isLikedBy(app.user) %}
@@ -70,6 +81,80 @@
         </div>
 
         <style>
+                /* --- RAPPEL DES VARIABLES (Déjà présentes dans votre base, mises ici pour référence) --- */
+            :root {
+                --frozen-water: #D7F9F1;
+                --muted-teal:   #7AA095;
+                --olive-leaf:   #40531B;
+                --fern:         #618B4A;
+                --dry-sage:     #AFBC88;
+            }
+
+            /* --- CONTENEUR DES BOUTONS --- */
+            /* Permet d'aligner "Modifier" et "Supprimer" proprement */
+            .action-buttons {
+                display: flex;
+                align-items: center;
+                gap: 12px; /* Espace entre les boutons */
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px dashed var(--dry-sage); /* Petite séparation subtile avec le texte */
+            }
+
+            /* --- BOUTON MODIFIER (Action principale) --- */
+            .edit-btn {
+                background-color: var(--fern); /* Vert Fougère vif */
+                color: white;
+                padding: 8px 16px;
+                border-radius: 10px;
+                text-decoration: none;
+                font-size: 14px;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                border: none;
+                display: inline-flex;
+                align-items: center;
+            }
+
+            .edit-btn:hover {
+                background-color: var(--olive-leaf); /* Devient plus sombre au survol */
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(97, 139, 74, 0.3);
+            }
+
+            /* --- BOUTON SUPPRIMER (Action secondaire/danger) --- */
+            /* J'utilise un style "Ghost" (bordure seulement) pour éviter les clics accidentels */
+            .delete-btn {
+                background-color: transparent;
+                color: var(--olive-leaf); /* Texte vert olive sombre */
+                border: 2px solid var(--olive-leaf); /* Bordure visible */
+                padding: 6px 14px;
+                border-radius: 10px;
+                font-size: 14px;
+                font-weight: 600;
+                cursor: pointer;
+                transition: all 0.3s ease;
+            }
+
+            .delete-btn:hover {
+                background-color: var(--olive-leaf); /* Se remplit au survol */
+                color: var(--frozen-water); /* Texte devient clair */
+                transform: translateY(-2px);
+                box-shadow: 0 4px 8px rgba(64, 83, 27, 0.2);
+            }
+
+            /* Petit ajustement responsive pour mobile */
+            @media (max-width: 600px) {
+                .action-buttons {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+                .edit-btn, .delete-btn {
+                    width: 100%;
+                    text-align: center;
+                    justify-content: center;
+                }
+            }
             body, html {
                 height: 100%;
                 margin: 0;

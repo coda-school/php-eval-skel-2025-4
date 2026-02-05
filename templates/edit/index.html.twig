@@ -1,20 +1,138 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello EditController!{% endblock %}
+{% block title %}Modifier le Kweek{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
+    <div class="profile-container">
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+        <h1>Modifier votre Kweek</h1>
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code>/app/src/Controller/EditController.php</code></li>
-        <li>Your template at <code>/app/templates/edit/index.html.twig</code></li>
-    </ul>
-</div>
+        {{ form_start(form) }}
+
+        <div class="tweet" style="margin-bottom: 20px;">
+            {{ form_widget(form) }}
+        </div>
+
+        <button type="submit" class="follow-btn" style="border:none; cursor:pointer;">
+            Enregistrer
+        </button>
+
+        {# J'ai temporairement commenté le lien d'annulation ci-dessous pour éviter l'erreur n°3 #}
+        {# <a href="{{ path('app_profile', {id: app.user.id}) }}">Annuler</a> #}
+
+        {{ form_end(form) }}
+
+    </div>
+    <style>
+        /* --- VARIABLES (Thème Nature) --- */
+        :root {
+            --frozen-water: #D7F9F1;
+            --muted-teal:   #7AA095;
+            --olive-leaf:   #40531B;
+            --fern:         #618B4A;
+            --dry-sage:     #AFBC88;
+            --white:        #ffffff;
+        }
+
+        /* --- GLOBAL (Si pas déjà dans base.html.twig) --- */
+        body {
+            background-color: var(--frozen-water);
+            font-family: "Inter", sans-serif;
+            color: var(--olive-leaf);
+        }
+
+        /* --- CONTENEUR PRINCIPAL --- */
+        .profile-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 40px;
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(64, 83, 27, 0.08); /* Ombre légère teintée vert */
+            border: 1px solid var(--frozen-water);
+        }
+
+        /* --- TITRE --- */
+        h1 {
+            color: var(--olive-leaf);
+            font-weight: 800;
+            font-size: 28px;
+            margin-bottom: 30px;
+            text-align: center;
+            letter-spacing: -0.5px;
+        }
+
+        /* --- CHAMPS DE FORMULAIRE (Textarea/Input) --- */
+        /* On cible les inputs générés par Symfony */
+        .tweet input,
+        .tweet textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid var(--dry-sage); /* Bordure douce */
+            border-radius: 12px;
+            font-size: 16px;
+            background-color: #FAFAFA;
+            color: #333;
+            transition: all 0.3s ease;
+            box-sizing: border-box; /* Important pour ne pas dépasser */
+            min-height: 120px; /* Hauteur confortable pour écrire */
+            font-family: inherit;
+            resize: vertical; /* Permet de redimensionner verticalement uniquement */
+        }
+
+        /* Focus (quand on clique dedans) */
+        .tweet input:focus,
+        .tweet textarea:focus {
+            border-color: var(--fern); /* Devient vert vif */
+            background-color: var(--white);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(97, 139, 74, 0.15); /* Halo vert */
+        }
+
+        /* Labels de formulaire (si affichés) */
+        .tweet label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--olive-leaf);
+        }
+
+        /* --- BOUTON ENREGISTRER --- */
+        button[type="submit"] {
+            display: block;
+            width: 100%;
+            background-color: var(--fern);
+            color: white;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(97, 139, 74, 0.3);
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--olive-leaf); /* Plus sombre au survol */
+            transform: translateY(-2px);
+        }
+
+        /* --- LIEN ANNULER (Si vous le décommentez) --- */
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--muted-teal);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        a:hover {
+            color: var(--olive-leaf);
+            text-decoration: underline;
+        }
+    </style>
 {% endblock %}

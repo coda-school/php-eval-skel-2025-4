@@ -14,13 +14,13 @@ final class CreateController extends AbstractController
     #[Route('/create', name: 'app_create', methods:['GET','POST'])]
     public function index(Request $request, EntityManagerInterface $em): Response
     {
-        // 1. On vérifie que l'utilisateur est connecté
+        // On vérifie que l'utilisateur est connecté
         $user = $this->getUser();
         if (!$user) {
             return $this->redirectToRoute('app_login'); // Redirige si pas connecté
         }
 
-        // 2. On crée un nouveau Post vide
+        // On crée un nouveau Post vide avec ses attributs définit à 0
         $post = new Post();
 
         $form = $this->createForm(KweekType::class, $post);
@@ -29,7 +29,7 @@ final class CreateController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
 
 
-            $post->setAuthor($user); // Si tu as nommé ta propriété "author" à l'étape 1
+            $post->setAuthor($user);
             $post->setNombreDeLikes(0);
             $post->setNombreDeVues(0);
             $post->setNombreDeCommentaires(0);
