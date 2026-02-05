@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints\Collection;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -33,10 +33,7 @@ class Post
 
     #[ORM\ManyToMany(targetEntity: User::class)]
     #[ORM\JoinTable(name: "post_likes")]
-    private $likes;
-
-//    #[ORM\Column(type: 'datetime')]
-//    private ?\DateTimeInterface $createdAt = null;
+    private Collection $likes;
 
     public function __construct()
     {
@@ -121,19 +118,8 @@ class Post
         return $this->likes->contains($user);
     }
 
-    public function getLikes()
+    public function getLikes(): Collection
     {
         return $this->likes;
     }
-
-//    public function getCreatedAt(): ?\DateTimeInterface
-//    {
-//        return $this->createdAt;
-//    }
-//
-//    public function setCreatedAt(\DateTimeInterface $createdAt): static
-//    {
-//        $this->createdAt = $createdAt;
-//        return $this;
-//    }
 }

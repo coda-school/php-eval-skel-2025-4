@@ -6,29 +6,37 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Repository\PostRepository;
+use Symfony\Component\HttpFoundation\Request;
+
 
 final class FilActuController extends AbstractController
 {
     #[Route('/fil/actu', name: 'app_fil_actu')]
-    public function index(PostRepository $postRepository): Response
+    public function index(PostRepository $postRepository,  Request $request): Response
     {
-        $user = $this->getUser();
+        $tab = $request->query->get('tab', 'feed');
 
-        if ($user) {
-            $posts = $postRepository->findFeedForUser($user);
+        if ($tab === 'trending') {
+            // Fil des tendances
+            $posts = $postRepository->findTopTrending(50);
+        } else {
 
-            if (empty($posts)) {
+            $user = $this->getUser();
+
+            if ($user) {
+                $posts = $postRepository->findFeedForUser($user);
+
+                if (empty($posts)) {
+                    $posts = $postRepository->findBy([], ['id' => 'DESC'], 20);
+                }
+            } else {
                 $posts = $postRepository->findBy([], ['id' => 'DESC'], 20);
             }
-        } else {
-            $posts = $postRepository->findBy([], ['id' => 'DESC'], 20);
+
         }
-
-        //$trends = $postRepository->findTopTrendsToday();
-
         return $this->render('fil_actu/index.html.twig', [
             'posts' => $posts,
-            //'trends' => $trends,
+            'tab' => $tab,
         ]);
     }
 }

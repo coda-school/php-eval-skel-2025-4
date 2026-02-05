@@ -26,7 +26,7 @@
 
         .feed-header {
             text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border-bottom: 2px solid #aebcae;
             padding-bottom: 15px;
         }
@@ -36,6 +36,36 @@
             color: #2f3e2e;
             font-size: 2rem;
             margin: 0;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .tab-btn {
+            padding: 10px 20px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+            transition: transform 0.15s ease, background-color 0.2s ease;
+        }
+
+        .tab-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .tab-active {
+            background-color: #2f3e2e;
+            color: white;
+        }
+
+        .tab-inactive {
+            background-color: #d9d9d9;
+            color: #2f3e2e;
         }
 
         .kweek-card {
@@ -103,7 +133,6 @@
             font-style: italic;
         }
 
-        /* ⭐ Bouton profil flottant */
         .profile-floating {
             position: fixed;
             top: 20px;
@@ -148,8 +177,17 @@
     {% endif %}
 
     <div class="feed-container">
-        <div class="feed-header">
-            <h1>Fil d'actualité</h1>
+
+        <div class="tabs-container">
+            <a href="{{ path('app_fil_actu', { tab: 'feed' }) }}"
+               class="tab-btn {{ tab == 'feed' ? 'tab-active' : 'tab-inactive' }}">
+                Fil Actualités
+            </a>
+
+            <a href="{{ path('app_fil_actu', { tab: 'trending' }) }}"
+               class="tab-btn {{ tab == 'trending' ? 'tab-active' : 'tab-inactive' }}">
+                Tendances
+            </a>
         </div>
 
         {% for post in posts %}
@@ -161,11 +199,11 @@
                 <p class="kweek-content">{{ post.ContenuDuKweek }}</p>
 
                 <div class="kweek-stats">
-                    <div class="stat-item" title="Commentaires">
+                    <div class="stat-item">
                         <span>💬</span> {{ post.NombreDeCommentaires }}
                     </div>
 
-                    <div class="stat-item" title="Likes">
+                    <div class="stat-item">
                         {% if app.user %}
                             {% if post.isLikedBy(app.user) %}
                                 <a href="{{ path('post_like', { id: post.id, from: 'feed' }) }}">❤️</a>
@@ -178,7 +216,7 @@
                         <span>{{ post.likes|length }}</span>
                     </div>
 
-                    <div class="stat-item" title="Vues">
+                    <div class="stat-item">
                         <span>👁️</span> {{ post.NombreDeVues }}
                     </div>
                 </div>
@@ -188,17 +226,6 @@
                 <p>Aucun kweek pour le moment.</p>
             </div>
         {% endfor %}
-{#        <div class="trends-container">#}
-{#            <h2 class="trends-title">Tendances du jour</h2>#}
 
-{#            {% for trend in trends %}#}
-{#                <div class="trend-item">#}
-{#                    🔥 {{ trend.ContenuDuKweek|slice(0, 40) }}{% if trend.ContenuDuKweek|length > 40 %}…{% endif %}#}
-{#                    <div class="trend-likes">{{ trend.likes|length }} likes</div>#}
-{#                </div>#}
-{#            {% else %}#}
-{#                <p class="no-trend">Aucune tendance aujourd’hui.</p>#}
-{#            {% endfor %}#}
-{#        </div>#}
     </div>
 {% endblock %}
