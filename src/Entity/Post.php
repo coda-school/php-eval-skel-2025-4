@@ -4,8 +4,8 @@ namespace App\Entity;
 
 use App\Repository\PostRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints\Collection;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
@@ -34,6 +34,15 @@ class Post
     #[ORM\ManyToMany(targetEntity: User::class)]
     #[ORM\JoinTable(name: "post_likes")]
     private Collection $likes;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection<int, Comment>
+     */
+    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'post', orphanRemoval: true)]
+    private \Doctrine\Common\Collections\Collection $comments;
+
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $createdAt = null;
 
     public function __construct()
     {
@@ -118,8 +127,49 @@ class Post
         return $this->likes->contains($user);
     }
 
-    public function getLikes(): Collection
+    public function getLikes()
     {
         return $this->likes;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+        return $this;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection<int, Comment>
+     */
+    public function getComments(): \Doctrine\Common\Collections\Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): static
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getPost() === $this) {
+                $comment->setPost(null);
+            }
+        }
+
+        return $this;
     }
 }

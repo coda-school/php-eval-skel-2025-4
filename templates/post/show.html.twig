@@ -1,0 +1,219 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Kweek de {{ post.author.pseudo }}{% endblock %}
+
+{% block body %}
+
+    <div class="feed-container">
+
+        <div class="page-header">
+            <a href="{{ path('app_fil_actu') }}" class="back-btn">⬅</a>
+            <h2>Kweek</h2>
+        </div>
+
+        <div class="kweek-card">
+            <div>
+                <span class="kweek-author">@{{ post.author.pseudo }}</span>
+                {% if post.createdAt %}
+                    <span class="kweek-date">{{ post.createdAt|date('d M Y à H:i', 'Europe/Paris') }}</span>
+                {% endif %}
+            </div>
+
+            <div class="kweek-content">
+                {{ post.contenuDuKweek }}
+            </div>
+
+            <div class="kweek-stats">
+                <span>💬 {{ post.comments|length }}</span>
+                <span>❤️ {{ post.likes|length }}</span>
+                <span>👁️ {{ post.nombreDeVues }}</span>
+            </div>
+        </div>
+
+        <div class="reply-section clearfix">
+            {{ form_start(commentForm) }}
+            {{ form_widget(commentForm.content) }}
+            <button type="submit" class="reply-btn">Répondre</button>
+            {{ form_end(commentForm) }}
+        </div>
+
+        <div class="comments-list">
+            <h3 class="comments-title">Réponses ({{ post.comments|length }})</h3>
+
+            {% for comment in post.comments %}
+                <div class="comment-card">
+                    <div class="comment-header">
+                        <span class="kweek-author" style="font-size: 0.8rem;">@{{ comment.author.pseudo }}</span>
+                        <span class="kweek-date">{{ comment.createdAt|date('d/m H:i', 'Europe/Paris') }}</span>
+                    </div>
+                    <div style="color: #333; line-height: 1.4;">
+                        {{ comment.content }}
+                    </div>
+                </div>
+            {% else %}
+                <p style="text-align: center; color: #889988; font-style: italic;">
+                    Pas encore de commentaire
+                </p>
+            {% endfor %}
+        </div>
+
+    </div>
+
+
+    <style>
+        body {
+            background-color: #aebcae;
+            color: #2f3e2e;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .feed-container {
+            background-color: #f0f4f0;
+            width: 100%;
+            max-width: 600px;
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        /* En-tête de la page (Bouton retour) */
+        .page-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #aebcae;
+            padding-bottom: 15px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            font-size: 1.2rem;
+            margin-right: 15px;
+            padding: 5px 10px;
+            background: #e8eee8;
+            border-radius: 50%;
+            transition: 0.2s;
+        }
+        .back-btn:hover { background: #d1d9d1; transform: scale(1.1); }
+
+        h2 {
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            color: #2f3e2e;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+
+        .kweek-card {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #d1d9d1;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .kweek-author {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+            color: #5c6b5c;
+            background-color: #e8eee8;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .kweek-date {
+            font-size: 0.8rem;
+            color: #889988;
+            margin-left: 10px;
+        }
+
+        .kweek-content {
+            font-size: 1.2rem;
+            line-height: 1.5;
+            margin: 15px 0;
+            color: #333;
+        }
+
+        .kweek-stats {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px dashed #aebcae;
+            color: #5c6b5c;
+            font-size: 0.9rem;
+        }
+
+
+        .reply-section {
+            background-color: #e8eee8;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px dashed #aebcae;
+        }
+
+        .comment-input {
+            width: 100%;
+            border: 1px solid #d1d9d1;
+            border-radius: 12px;
+            padding: 12px;
+            font-family: inherit;
+            resize: none;
+            outline: none;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+        .comment-input:focus { border-color: #5c6b5c; }
+
+        .reply-btn {
+            background-color: #2f3e2e;
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 8px 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            float: right;
+        }
+        .reply-btn:hover { background-color: #5c6b5c; }
+        .clearfix::after { content: ""; clear: both; display: table; }
+
+
+        .comments-list {
+            margin-top: 20px;
+        }
+
+        .comments-title {
+            font-family: 'Comic Sans MS', sans-serif;
+            margin-bottom: 15px;
+            color: #5c6b5c;
+        }
+
+        .comment-card {
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #aebcae;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+        }
+
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+    </style>
+{% endblock %}
