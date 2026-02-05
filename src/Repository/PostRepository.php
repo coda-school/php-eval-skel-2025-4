@@ -17,6 +17,22 @@ class PostRepository extends ServiceEntityRepository
         parent::__construct($registry, Post::class);
     }
 
+//    //Top 5 tendances sur la journée
+//    public function findTopTrendsToday(int $limit = 5): array{
+//        $today = new \DateTime('today');
+//        return $this->createQueryBuilder('p')
+//            ->leftJoin('p.likes', 'l')
+//            ->addSelect('COUNT(l) AS HIDDEN likeCount')
+//            ->where('p.createdAt >= :today')
+//            ->setParameter('today', $today)
+//            ->groupBy('p.id')
+//            ->orderBy('likeCount', 'DESC')
+//            ->setMaxResults($limit)
+//            ->getQuery()
+//            ->getResult();
+//
+//    }
+
     public function findLatest(): array
     {
         return $this->createQueryBuilder('p')

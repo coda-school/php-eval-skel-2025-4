@@ -188,5 +188,17 @@
                 <p>Aucun kweek pour le moment.</p>
             </div>
         {% endfor %}
+{#        <div class="trends-container">#}
+{#            <h2 class="trends-title">Tendances du jour</h2>#}
+
+{#            {% for trend in trends %}#}
+{#                <div class="trend-item">#}
+{#                    🔥 {{ trend.ContenuDuKweek|slice(0, 40) }}{% if trend.ContenuDuKweek|length > 40 %}…{% endif %}#}
+{#                    <div class="trend-likes">{{ trend.likes|length }} likes</div>#}
+{#                </div>#}
+{#            {% else %}#}
+{#                <p class="no-trend">Aucune tendance aujourd’hui.</p>#}
+{#            {% endfor %}#}
+{#        </div>#}
     </div>
 {% endblock %}

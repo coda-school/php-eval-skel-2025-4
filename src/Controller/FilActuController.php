@@ -24,9 +24,11 @@ final class FilActuController extends AbstractController
             $posts = $postRepository->findBy([], ['id' => 'DESC'], 20);
         }
 
+        //$trends = $postRepository->findTopTrendsToday();
+
         return $this->render('fil_actu/index.html.twig', [
             'posts' => $posts,
+            //'trends' => $trends,
         ]);
     }
-
 }
