@@ -1,54 +1,62 @@
-# Symfony Docker
+# Projet KWIKKER — Mini réseau social façon Twitter
 
-A [Docker](https://www.docker.com/)-based installer and runtime for the [Symfony](https://symfony.com) web framework,
-with [FrankenPHP](https://frankenphp.dev) and [Caddy](https://caddyserver.com/) inside!
+Kwikker est une application web développée avec Symfony permettant de publier des messages courts, suivre d’autres utilisateurs et consulter un fil d’actualité ou un fil des tendances.
 
-![CI](https://github.com/dunglas/symfony-docker/workflows/CI/badge.svg)
 
-## Getting Started
+## Fonctionnalités principales
 
-1. If not already done, [install Docker Compose](https://docs.docker.com/compose/install/) (v2.10+)
-2. Run `docker compose build --pull --no-cache` to build fresh images
-3. Run `docker compose up --wait` to set up and start a fresh Symfony project
-4. Open `https://localhost` in your favorite web browser and [accept the auto-generated TLS certificate](https://stackoverflow.com/a/15076602/1352334)
-5. Run `docker compose down --remove-orphans` to stop the Docker containers.
+### Gestion des utilisateurs
+- Inscription et connexion (sans validation email)
+- Profil utilisateur : pseudo, bio, informations de base
+- Modification du profil
 
-## Features
+### Publication de tweets
+- Création de messages (280 caractères maximum)
+- Modification et suppression par l’auteur
 
-- Production, development and CI ready
-- Just 1 service by default
-- Blazing-fast performance thanks to [the worker mode of FrankenPHP](https://frankenphp.dev/docs/worker/)
-- [Installation of extra Docker Compose services](docs/extra-services.md) with Symfony Flex
-- Automatic HTTPS (in dev and prod)
-- HTTP/3 and [Early Hints](https://symfony.com/blog/new-in-symfony-6-3-early-hints) support
-- Real-time messaging thanks to a built-in [Mercure hub](https://symfony.com/doc/current/mercure.html)
-- [Vulcain](https://vulcain.rocks) support
-- Native [XDebug](docs/xdebug.md) integration
-- Super-readable configuration
+### Système de suivi
+- Suivre et ne plus suivre un utilisateur
+- Page profil avec liste des tweets, followers et following
 
-**Enjoy!**
+### Fil d’actualité
+- Affichage des tweets des utilisateurs suivis
+- Tri du plus récent au plus ancien
+- Suggestions de contenu
+- Pagination
 
-## Docs
 
-1. [Options available](docs/options.md)
-2. [Using Symfony Docker with an existing project](docs/existing-project.md)
-3. [Support for extra services](docs/extra-services.md)
-4. [Deploying in production](docs/production.md)
-5. [Debugging with Xdebug](docs/xdebug.md)
-6. [TLS Certificates](docs/tls.md)
-7. [Using MySQL instead of PostgreSQL](docs/mysql.md)
-8. [Using Alpine Linux instead of Debian](docs/alpine.md)
-9. [Using a Makefile](docs/makefile.md)
-10. [Updating the template](docs/updating.md)
-11. [Troubleshooting](docs/troubleshooting.md)
+## Fonctionnalités bonus
 
-## License
+- Système de likes
+- Recherche de tweets
+- Tweets populaires
+- Système de commentaires
+- Affichage de la date relative
+- Partage de posts
+- Ajout d’images aux tweets (fonctionnalité désactivée suite à un problème de migration)
 
-Symfony Docker is available under the MIT License.
 
-## Credits
+## Technologies utilisées
 
-Created by [Kévin Dunglas](https://dunglas.dev), co-maintained by [Maxime Helias](https://twitter.com/maxhelias) and sponsored by [Les-Tilleuls.coop](https://les-tilleuls.coop).
+- Symfony 6
+- Twig
+- Doctrine ORM
+- MySQL / MariaDB
+- PHP 8.2+
 
-id:Kwikker
-Mdp database:Kweek
+
+## Installation
+
+bash ```
+git clone https://xxx.git/
+cd kwikker
+composer install ``` 
+
+## Commandes utilisées
+
+bash ```
+sudo -u postgres psql -d app
+php bin/console doctrine:migrations:migrate
+php bin/console make:migration
+docker compose exec php sh
+git remote set-url origin https://xxx.git/ ```
