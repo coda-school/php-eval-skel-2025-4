@@ -34,7 +34,7 @@ Kwikker est une application web développée avec Symfony permettant de publier 
 - Affichage de la date relative
 - Partage de posts
 - Ajout d’images aux tweets (fonctionnalité désactivée suite à un problème de migration)
-
+lignes 31 à 44 ansi que l'ajout de la table dans le formulaire
 
 ## Technologies utilisées
 
@@ -81,7 +81,7 @@ retard que nous avions avec les absences pendant ces semaines, nous avons réuss
 
 L'IA a été utilisé par tous pour le CSS. Nous avons également été aidé pour répondre à des questions, nous expliquer des façons de faire, 
 faire du débug... 
-
+Pour le scrypt des caractères restants dans create/index.html.twig lignes 107 à 136.
 
 ## Avec le recul
 
