@@ -267,23 +267,35 @@
 
         {% for post in posts|slice(offset, limit) %}
             <div class="kweek-card">
-                <a href="{{ path('user_profile', {id: post.author.id}) }}" class="kweek-author">
-                    @{{ post.author.pseudo }}
+                <div style="margin-bottom: 5px;">
+                    <a href="{{ path('user_profile', {id: post.author.id}) }}" class="kweek-author">
+                        @{{ post.author.pseudo }}
+                    </a>
+                    {% if post.createdAt %}
+                        <span style="font-size: 0.8rem; color: #889988; margin-left: 5px;">
+                · {{ post.createdAt|date('d M', 'Europe/Paris') }}
+            </span>
+                    {% endif %}
+                </div>
+
+                <a href="{{ path('post_show', {id: post.id}) }}" style="text-decoration: none; color: inherit;">
+                    <p class="kweek-content">{{ post.ContenuDuKweek }}</p>
                 </a>
 
-                <p class="kweek-content">{{ post.ContenuDuKweek }}</p>
-
                 <div class="kweek-stats">
+
                     <div class="stat-item">
-                        <span>💬</span> {{ post.NombreDeCommentaires }}
+                        <a href="{{ path('post_show', {id: post.id}) }}" style="text-decoration: none; color: inherit; display: flex; align-items: center; gap: 5px;">
+                            💬 {{ post.comments|length }}
+                        </a>
                     </div>
 
                     <div class="stat-item">
                         {% if app.user %}
                             {% if post.isLikedBy(app.user) %}
-                                <a href="{{ path('post_like', { id: post.id, from: 'feed' }) }}">❤️</a>
+                                <a href="{{ path('post_like', { id: post.id, from: 'feed' }) }}" style="text-decoration: none;">❤️</a>
                             {% else %}
-                                <a href="{{ path('post_like', { id: post.id, from: 'feed' }) }}">🤍</a>
+                                <a href="{{ path('post_like', { id: post.id, from: 'feed' }) }}" style="text-decoration: none;">🤍</a>
                             {% endif %}
                         {% else %}
                             <span>🤍</span>

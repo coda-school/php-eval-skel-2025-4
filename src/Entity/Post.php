@@ -33,7 +33,7 @@ class Post
 
     #[ORM\ManyToMany(targetEntity: User::class)]
     #[ORM\JoinTable(name: "post_likes")]
-    private Collection $likes;
+    private $likes;
 
     /**
      * @var \Doctrine\Common\Collections\Collection<int, Comment>
