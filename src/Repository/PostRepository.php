@@ -54,6 +54,16 @@ class PostRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function searchByKeyword(string $keyword): array
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.ContenuDuKweek LIKE :keyword')
+            ->setParameter('keyword', '%' . $keyword . '%')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 
 
 //    /**
