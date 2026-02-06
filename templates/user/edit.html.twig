@@ -11,15 +11,15 @@
         {{ form_start(form) }}
 
         <div class="form-group">
-            {{ form_row(form.pseudo) }}
+            {{ form_row(form.pseudo, {'attr': {'class': 'custom-input'}}) }}
         </div>
 
         <div class="form-group">
-            {{ form_row(form.nom) }}
+            {{ form_row(form.nom, {'attr': {'class': 'custom-input'}}) }}
         </div>
 
         <div class="form-group">
-            {{ form_row(form.bio) }}
+            {{ form_row(form.bio, {'attr': {'class': 'custom-input'}}) }}
         </div>
 
         <div class="buttons-row">
@@ -36,101 +36,126 @@
     </div>
 
     <style>
+        /* --- FOND VERT COMME LE FIL D'ACTU --- */
+        body {
+            background-color: #aebcae;
+            color: #2f3e2e;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+            align-items: center; /* Pour centrer le formulaire verticalement */
+        }
 
+        /* --- CONTENEUR PRINCIPAL (Carte claire) --- */
         .edit-container {
-            max-width: 600px;
-            margin: 40px auto;
+            background-color: #f0f4f0;
+            width: 100%;
+            max-width: 500px;
             padding: 30px;
-            background: #ffffff;
-            border-radius: 18px;
-            border: 2px solid #dcdcdc;
-            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-            font-family: "Inter", sans-serif;
+            border-radius: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border: 2px solid #e8eee8;
         }
 
-
+        /* --- TITRE COMME LE FIL D'ACTU --- */
         .edit-container h1 {
-            font-size: 28px;
-            font-weight: 800;
+            font-family: 'Comic Sans MS', 'Chalkboard SE', sans-serif;
+            color: #2f3e2e;
+            font-size: 2rem;
+            margin-top: 0;
             margin-bottom: 25px;
-            color: #3a3a3a;
-            letter-spacing: -0.5px;
             text-align: center;
+            border-bottom: 2px solid #aebcae;
+            padding-bottom: 15px;
         }
 
-
+        /* --- CHAMPS DU FORMULAIRE --- */
         .form-group {
             margin-bottom: 20px;
         }
 
-
+        /* Labels en style "machine à écrire" comme les pseudos */
         .form-group label {
             display: block;
-            font-weight: 700;
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
             margin-bottom: 8px;
-            color: #444;
+            color: #5c6b5c;
+            background-color: #e8eee8;
+            padding: 2px 10px;
+            border-radius: 10px;
+            width: fit-content;
         }
 
+        /* Les inputs (zones de texte) */
+        .custom-input,
         .form-group input,
         .form-group textarea {
             width: 100%;
             padding: 12px;
-            border: 2px solid #e5e5e5;
-            border-radius: 12px;
-            font-size: 15px;
-            background-color: #f9f9f9;
-            color: #000000 !important;
-            box-sizing: border-box;
+            border: 2px solid #d1d9d1;
+            border-radius: 15px;
+            font-size: 1rem;
+            background-color: #ffffff;
+            color: #2f3e2e;
+            box-sizing: border-box; /* Important pour ne pas dépasser */
+            font-family: inherit;
             transition: 0.2s;
-            font-family: "Inter", sans-serif;
         }
 
+        .custom-input:focus,
         .form-group input:focus,
         .form-group textarea:focus {
-            border-color: #6b8e23;
+            border-color: #5c6b5c;
             outline: none;
-            background-color: #fff;
+            background-color: #f9fbf9;
+            box-shadow: 0 0 0 3px rgba(92, 107, 92, 0.1);
         }
 
-
+        /* --- BOUTONS --- */
         .buttons-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px dashed #aebcae;
         }
 
-
+        /* Bouton Annuler */
         .cancel-btn {
             text-decoration: none;
-            color: #777;
-            font-weight: 600;
+            color: #5c6b5c;
+            font-weight: bold;
             padding: 10px 20px;
-            border-radius: 12px;
+            border-radius: 15px;
             transition: 0.2s;
+            border: 1px solid transparent;
         }
         .cancel-btn:hover {
-            background-color: #f0f0f0;
-            color: #333;
+            background-color: #e8eee8;
+            color: #2f3e2e;
         }
 
-
+        /* Bouton Enregistrer (Vert foncé comme le profil) */
         .save-btn {
-            background: #6b8e23;
+            background-color: #2f3e2e;
             color: white;
             border: none;
-            padding: 12px 25px;
-            border-radius: 12px;
-            font-weight: 700;
+            padding: 12px 30px;
+            border-radius: 25px; /* Très arrondi */
+            font-weight: bold;
             font-size: 16px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(107, 142, 35, 0.3);
-            transition: 0.25s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: transform 0.2s ease, background-color 0.2s ease;
         }
 
         .save-btn:hover {
-            background: #5c7c1f;
-            transform: translateY(-2px);
+            background-color: #5c6b5c;
+            transform: scale(1.05);
         }
     </style>
 
