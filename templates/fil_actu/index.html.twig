@@ -234,6 +234,17 @@
             <a href="{{ path('user_profile', { id: app.user.id }) }}" class="profile-btn">👤</a>
             <div class="profile-username">@{{ app.user.pseudo }}</div>
         </div>
+            <div class="profile-floating">
+                <a href="{{ path('user_profile', { id: app.user.id }) }}" class="profile-btn" title="Mon Profil">👤</a>
+                <div class="profile-username">@{{ app.user.pseudo }}</div>
+
+                <div style="margin-top: 15px;">
+                    {# ATTENTION : Vérifie que le nom de ta route est bien 'app_tweet_new' ou 'app_post_new' #}
+                    <a href="{{ path('app_create') }}" class="profile-btn create-kweek-btn" title="Nouveau Kweek">
+                        ✏️
+                    </a>
+                </div>
+            </div>
     {% endif %}
 
     <div class="feed-container">

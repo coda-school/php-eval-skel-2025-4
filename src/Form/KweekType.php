@@ -22,12 +22,12 @@ class KweekType extends AbstractType
                     'placeholder' => "What's happening?" // Placeholder déplacé ici (plus propre)
                 ]
             ])
-            ->add('thumbnailFile', FileType::class, [
+            /*->add('thumbnailFile', FileType::class, [
                 'mapped' => false,
                 'constraints' => [
                     new Image()
                 ]
-            ])
+            ])*/
         ;
     }
 

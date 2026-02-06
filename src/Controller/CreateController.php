@@ -27,15 +27,14 @@ final class CreateController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-           /** @var UploadedFile $file */
-            $file = $form->get('thumbnailFile')->getData();
+           /*/** @var UploadedFile $file */
+            /*$file = $form->get('thumbnailFile')->getData();
 
-            // CORRECTION 1 : On utilise uniqid() car l'ID du post n'existe pas encore
             // On vérifie aussi si un fichier a bien été envoyé
             if ($file) {
                 $fileName = uniqid() . '.' . $file->guessExtension();
 
-                // CORRECTION 2 : Correction de la variable $fileName (N majuscule)
+
                 $file->move(
                     $this->getParameter('kernel.project_dir') . '/public/images/kweek',
                     $fileName
@@ -43,9 +42,7 @@ final class CreateController extends AbstractController
 
                 $post->setThumbnail($fileName);
             }
-
-
-            // CORRECTION 3 : J'ai retiré le dd() pour que la sauvegarde se fasse
+            */
 
             $post->setAuthor($user);
             // Si tu as mis des valeurs par défaut dans ton entité (ex: $nombreDeLikes = 0),
