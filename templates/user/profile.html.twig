@@ -17,6 +17,9 @@
                         <a href="{{ path('app_user_edit', {'id': user.id}) }}" class="edit-btn">
                             Modifier
                         </a>
+                        <div class="header-actions">
+                            <a href="{{ logout_path() }}" class="btn-logout">Se déconnecter</a>
+                        </div>
                     {% endif %}
                 </div>
 
@@ -81,6 +84,40 @@
         </div>
 
         <style>
+            /* --- BOUTON DÉCONNEXION (Style harmonisé) --- */
+            .btn-logout {
+                padding: 8px 18px; /* Un peu plus petit que les gros boutons d'action */
+                border-radius: 12px; /* Même arrondi que action-btn */
+                font-weight: 600;
+                text-decoration: none;
+                font-size: 14px;
+                transition: all 0.25s ease;
+                text-align: center;
+                display: inline-block;
+
+                /* Couleur : Un rouge terreux qui va bien avec le vert */
+                background: #cd5c5c;
+                color: white;
+                border: none;
+
+                /* Ombre douce comme les autres boutons */
+                box-shadow: 0 4px 10px rgba(205, 92, 92, 0.3);
+            }
+
+            .btn-logout:hover {
+                background: #b04040; /* Plus foncé au survol */
+                transform: translateY(-2px); /* Effet de levée */
+                box-shadow: 0 6px 14px rgba(176, 64, 64, 0.4);
+            }
+
+            /* Optionnel : Si tu veux le placer à côté du bouton retour */
+            .header-actions {
+                display: flex;
+                gap: 10px;
+                position: absolute;
+                top: 15px;
+                right: 15px; /* Place le bouton en haut à droite */
+            }
                 /* --- RAPPEL DES VARIABLES (Déjà présentes dans votre base, mises ici pour référence) --- */
             :root {
                 --frozen-water: #D7F9F1;
